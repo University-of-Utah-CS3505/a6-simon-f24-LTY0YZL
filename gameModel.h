@@ -15,6 +15,7 @@ public:
     void checkPlayerInput(int color);
     void addRandomMove();
     void flashSequence();
+    void printSequence();
 
 signals:
     void progressUpdated(int value);
@@ -24,6 +25,8 @@ signals:
     void unflashButton(int buttonId);
     void enableInput();
     void nextLevel();
+    void inputProcessed();
+    void disableInput();
 
 private:
     QVector<int> sequence;

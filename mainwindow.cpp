@@ -13,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->redButton->setStyleSheet("QPushButton {background-color: red;} QPushButton:pressed {background-color: darkred;}");
     ui->blueButton->setStyleSheet("QPushButton {background-color: blue;} QPushButton:pressed {background-color: darkblue;}");
 
+    // Disable the red and blue buttons initially
+    ui->redButton->setEnabled(false);
+    ui->blueButton->setEnabled(false);
+
+    //Connect signal and slot
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::startGame);
     connect(ui->redButton, &QPushButton::clicked, this, &MainWindow::onRedButtonClicked);
     connect(ui->blueButton, &QPushButton::clicked, this, &MainWindow::onBlueButtonClicked);
@@ -23,6 +28,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(gameModel, &gameModel::unflashButton, this, &MainWindow::unflashButton);
     connect(gameModel, &gameModel::enableInput, this, &MainWindow::enableInput);
     connect(gameModel, &gameModel::nextLevel, this, &MainWindow::handleSequenceComp);
+    connect(gameModel, &gameModel::inputProcessed, this, &MainWindow::enableInput);
+    connect(gameModel, &gameModel::disableInput, this, &MainWindow::disableInput);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -35,22 +44,23 @@ void MainWindow::startGame() {
     ui->pushButton->setEnabled(false);
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
+    ui->loseMessage->clear();
 }
 
 void MainWindow::onRedButtonClicked() {
-    gameModel->checkPlayerInput(0);
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
+    gameModel->checkPlayerInput(0);
 }
 
 void MainWindow::onBlueButtonClicked() {
-    gameModel->checkPlayerInput(1);
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
+    gameModel->checkPlayerInput(1);
 }
 
 void MainWindow::onGameOver() {
-    ui->loseMessage->setText("You lose!");
+    ui->loseMessage->setText("You lose. Click start to play again.");
     ui->pushButton->setEnabled(true);
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
@@ -84,4 +94,9 @@ void MainWindow::enableInput() {
 void MainWindow::handleSequenceComp() {
     gameModel->addRandomMove();
     gameModel->flashSequence();
+}
+
+void MainWindow::disableInput() {
+    ui->redButton->setEnabled(false);
+    ui->blueButton->setEnabled(false);
 }

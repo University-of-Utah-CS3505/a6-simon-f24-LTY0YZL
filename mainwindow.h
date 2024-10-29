@@ -29,6 +29,7 @@ private slots:
     void unflashButton(int buttonId);
     void enableInput();
     void handleSequenceComp();
+    void disableInput();
 
 private:
     Ui::MainWindow *ui;
