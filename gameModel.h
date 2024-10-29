@@ -11,11 +11,11 @@ class gameModel : public QObject
 
 public:
     explicit gameModel(QObject *parent = nullptr);
+
+public slots:
     void startNewGame();
     void checkPlayerInput(int color);
-    void addRandomMove();
-    void flashSequence();
-    void printSequence();
+    void handleNextLevel();
 
 signals:
     void progressUpdated(int value);
@@ -24,16 +24,24 @@ signals:
     void flashBlue();
     void unflashButton(int buttonId);
     void enableInput();
-    void nextLevel();
-    void inputProcessed();
     void disableInput();
+    void nextLevel();
+
+    void swapColors();      // Signal to swap colors
+    void restoreColors();   // Signal to restore original colors
 
 private:
     QVector<int> sequence;
     int currentIndex;
+    bool gameActive;
 
+    int levelCounter;
+    bool colorsSwapped;
+
+    void addRandomMove();
+    void flashSequence();
+    void printSequence();
     void emitProgress();
-
 
 };
 

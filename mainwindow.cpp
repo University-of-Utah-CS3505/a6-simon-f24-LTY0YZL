@@ -1,13 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "gameModel.h"
+#include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    gameModel = new class gameModel(this);
 
     // Set initial button styles
     ui->redButton->setStyleSheet("QPushButton {background-color: red;} QPushButton:pressed {background-color: darkred;}");
@@ -17,21 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
 
-    //Connect signal and slot
+    // Connect UI signals to slots
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::startGame);
     connect(ui->redButton, &QPushButton::clicked, this, &MainWindow::onRedButtonClicked);
     connect(ui->blueButton, &QPushButton::clicked, this, &MainWindow::onBlueButtonClicked);
-    connect(gameModel, &gameModel::gameOver, this, &MainWindow::onGameOver);
-    connect(gameModel, &gameModel::progressUpdated, this, &MainWindow::updateProgressBar);
-    connect(gameModel, &gameModel::flashRed, this, &MainWindow::flashRed);
-    connect(gameModel, &gameModel::flashBlue, this, &MainWindow::flashBlue);
-    connect(gameModel, &gameModel::unflashButton, this, &MainWindow::unflashButton);
-    connect(gameModel, &gameModel::enableInput, this, &MainWindow::enableInput);
-    connect(gameModel, &gameModel::nextLevel, this, &MainWindow::handleSequenceComp);
-    connect(gameModel, &gameModel::inputProcessed, this, &MainWindow::enableInput);
-    connect(gameModel, &gameModel::disableInput, this, &MainWindow::disableInput);
-
-
 }
 
 MainWindow::~MainWindow()
@@ -40,29 +28,23 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::startGame() {
-    gameModel->startNewGame();
-    ui->pushButton->setEnabled(false);
-    ui->redButton->setEnabled(false);
-    ui->blueButton->setEnabled(false);
-    ui->loseMessage->clear();
+    emit startGameSignal();
+    ui->pushButton->setEnabled(false); // Disable the start button
+    ui->loseMessage->clear();          // Clear any lose messages
 }
 
 void MainWindow::onRedButtonClicked() {
-    ui->redButton->setEnabled(false);
-    ui->blueButton->setEnabled(false);
-    gameModel->checkPlayerInput(0);
+    emit playerInputSignal(0);
 }
 
 void MainWindow::onBlueButtonClicked() {
-    ui->redButton->setEnabled(false);
-    ui->blueButton->setEnabled(false);
-    gameModel->checkPlayerInput(1);
+    emit playerInputSignal(1);
 }
 
 void MainWindow::onGameOver() {
-    ui->loseMessage->setText("You lose. Click start to play again.");
-    ui->pushButton->setEnabled(true);
-    ui->redButton->setEnabled(false);
+    ui->loseMessage->setText("You lose! Click start button to play again");
+    ui->pushButton->setEnabled(true);    // Enable the start button
+    ui->redButton->setEnabled(false);    // Disable input buttons
     ui->blueButton->setEnabled(false);
 }
 
@@ -91,12 +73,28 @@ void MainWindow::enableInput() {
     ui->blueButton->setEnabled(true);
 }
 
-void MainWindow::handleSequenceComp() {
-    gameModel->addRandomMove();
-    gameModel->flashSequence();
-}
-
 void MainWindow::disableInput() {
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
+}
+
+void MainWindow::handleSequenceComp() {
+    qDebug() << "To next level.";
+}
+
+void MainWindow::swapButtonColors() {
+    std::swap(redButtonColor, blueButtonColor);
+
+    ui->redButton->setStyleSheet("QPushButton { background-color: " + redButtonColor + "; }");
+    ui->blueButton->setStyleSheet("QPushButton { background-color: " + blueButtonColor + "; }");
+}
+
+void MainWindow::restoreButtonColors() {
+    // Reset the colors to their defaults
+    redButtonColor = "red";
+    blueButtonColor = "blue";
+
+    //Apply the default styles
+    ui->redButton->setStyleSheet("QPushButton { background-color: red; }");
+    ui->blueButton->setStyleSheet("QPushButton { background-color: blue; }");
 }

@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "gameModel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,10 +14,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
+signals:
+    void startGameSignal();
+    void playerInputSignal(int color);
+
+public slots:
     void startGame();
     void onRedButtonClicked();
     void onBlueButtonClicked();
@@ -28,11 +31,17 @@ private slots:
     void flashBlue();
     void unflashButton(int buttonId);
     void enableInput();
-    void handleSequenceComp();
     void disableInput();
+    void handleSequenceComp();
+
+    void swapButtonColors();
+    void restoreButtonColors();
 
 private:
     Ui::MainWindow *ui;
-    gameModel *gameModel;
+
+    QString redButtonColor = "red";
+    QString blueButtonColor = "blue";
 };
+
 #endif // MAINWINDOW_H
