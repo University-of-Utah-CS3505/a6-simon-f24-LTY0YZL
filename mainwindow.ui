@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="redButton">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>200</y>
-      <width>141</width>
-      <height>61</height>
+      <x>280</x>
+      <y>150</y>
+      <width>241</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="text">
@@ -31,9 +31,9 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>200</y>
-      <width>151</width>
-      <height>61</height>
+      <y>150</y>
+      <width>251</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="text">
@@ -44,9 +44,9 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>330</y>
-      <width>111</width>
-      <height>51</height>
+      <y>410</y>
+      <width>131</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -56,10 +56,10 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>420</y>
-      <width>118</width>
-      <height>23</height>
+      <x>420</x>
+      <y>520</y>
+      <width>251</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="value">
@@ -69,14 +69,14 @@
    <widget class="QLabel" name="loseMessage">
     <property name="geometry">
      <rect>
-      <x>680</x>
-      <y>420</y>
-      <width>63</width>
-      <height>20</height>
+      <x>440</x>
+      <y>320</y>
+      <width>181</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Lose</string>
+     <string/>
     </property>
    </widget>
   </widget>

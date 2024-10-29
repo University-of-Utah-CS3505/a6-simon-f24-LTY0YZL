@@ -14,10 +14,12 @@ for UI updates.
 #include <QRandomGenerator>
 #include <QDebug>
 
+//Constructs a gameModel object.
 gameModel::gameModel(QObject *parent) : QObject(parent), currentIndex(0)
 {
 }
 
+//Starts a new game by resetting all game variables and initializing the first move.
 void gameModel::startNewGame() {
     sequence.clear();
     currentIndex = 0;
@@ -28,6 +30,7 @@ void gameModel::startNewGame() {
     flashSequence();
 }
 
+//Checks the player's input against the expected sequence at the current index.
 void gameModel::checkPlayerInput(int color) {
     if (!gameActive) {
         qDebug() << "Game not active.";
@@ -59,16 +62,19 @@ void gameModel::checkPlayerInput(int color) {
     }
 }
 
+//Adds a random move to the sequence.
 void gameModel::addRandomMove() {
     int newColor = QRandomGenerator::global()->bounded(2);  // Generates 0 or 1 randomly
     sequence.append(newColor);
     emitProgress();
 }
 
+//ts a progress updated signal based on the current index relative to the sequence size.
 void gameModel::emitProgress() {
     emit progressUpdated(static_cast<int>(100.0 * currentIndex / sequence.size()));
 }
 
+//Flashes the sequence of colors to the user.
 void gameModel::flashSequence() {
     emit disableInput(); // Disable input before flashing
     printSequence();
@@ -87,6 +93,7 @@ void gameModel::flashSequence() {
     QTimer::singleShot(sequence.size() * 1500, this, [this]() { emit enableInput(); currentIndex = 0; });
 }
 
+//Outputs the current sequence to the debug console.
 void gameModel::printSequence() {
     QString seqOutput = "Sequence: ";
     for (int color : sequence) {
@@ -99,6 +106,7 @@ void gameModel::printSequence() {
     qDebug() << seqOutput;
 }
 
+//Handles the transition to the next level,  color swap based on the level counter.
 void gameModel::handleNextLevel() {
     levelCounter++;
 

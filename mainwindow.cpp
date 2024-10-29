@@ -12,6 +12,7 @@ interaction, and updating the UI based on game state changes.
 #include "ui_mainwindow.h"
 #include <QRandomGenerator>
 
+// Constructor for MainWindow
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -32,25 +33,30 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->blueButton, &QPushButton::clicked, this, &MainWindow::onBlueButtonClicked);
 }
 
+//Destructor for MainWindow.
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+//Starts the game  and updating the UI accordingly.
 void MainWindow::startGame() {
     emit startGameSignal();
     ui->pushButton->setEnabled(false); // Disable the start button
     ui->loseMessage->clear();          // Clear any lose messages
 }
 
+// Slot that handles red button clicks. Emits a signal indicating a input of color 0 (red).
 void MainWindow::onRedButtonClicked() {
     emit playerInputSignal(0);
 }
 
+// Slot that handles red button clicks. Emits a signal indicating a input of color 1 (blue).
 void MainWindow::onBlueButtonClicked() {
     emit playerInputSignal(1);
 }
 
+//Handles the game over condition by updating the UI to reflect the game's end
 void MainWindow::onGameOver() {
     ui->loseMessage->setText("You lose! Click start button to play again");
     ui->pushButton->setEnabled(true);    // Enable the start button
@@ -58,18 +64,22 @@ void MainWindow::onGameOver() {
     ui->blueButton->setEnabled(false);
 }
 
+//Updates the game's progress bar with the given value.
 void MainWindow::updateProgressBar(int value) {
     ui->progressBar->setValue(value);
 }
 
+//Temporarily change the color of the red button.
 void MainWindow::flashRed() {
     ui->redButton->setStyleSheet("QPushButton {background-color: darkred;}");
 }
 
+//Temporarily change the color of the blue button.
 void MainWindow::flashBlue() {
     ui->blueButton->setStyleSheet("QPushButton {background-color: darkblue;}");
 }
 
+//Restores the button color after a flash.
 void MainWindow::unflashButton(int buttonId) {
     if (buttonId == 0) { // Red button
         ui->redButton->setStyleSheet("QPushButton {background-color: red;}");
@@ -78,11 +88,13 @@ void MainWindow::unflashButton(int buttonId) {
     }
 }
 
+//Enables the input buttons allowing the player to interact with the game
 void MainWindow::enableInput() {
     ui->redButton->setEnabled(true);
     ui->blueButton->setEnabled(true);
 }
 
+//Disenables the input buttons allowing the player to interact with the game
 void MainWindow::disableInput() {
     ui->redButton->setEnabled(false);
     ui->blueButton->setEnabled(false);
@@ -92,6 +104,7 @@ void MainWindow::handleSequenceComp() {
     qDebug() << "To next level.";
 }
 
+//Swaps the colors of the buttons to add variability to the gameplay
 void MainWindow::swapButtonColors() {
     std::swap(redButtonColor, blueButtonColor);
 
@@ -99,6 +112,7 @@ void MainWindow::swapButtonColors() {
     ui->blueButton->setStyleSheet("QPushButton { background-color: " + blueButtonColor + "; }");
 }
 
+//Restores the button colors to their default settings.
 void MainWindow::restoreButtonColors() {
     // Reset the colors to their defaults
     redButtonColor = "red";
