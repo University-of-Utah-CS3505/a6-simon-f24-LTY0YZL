@@ -1,3 +1,15 @@
+/*
+Name: Yang Hong
+Data: 10/28/2024
+Title: A6: Qt Simon Game
+
+This header file defines the gameModel class for a Simon  game.
+The class manages game states, level progression, and player interactions.
+ It is responsible for storing the sequenceof colors, validating player
+inputs against the sequence, handling level transitions, and emitting signals
+for UI updates.
+*/
+
 #include "gameModel.h"
 #include <QRandomGenerator>
 #include <QDebug>

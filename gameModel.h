@@ -1,3 +1,14 @@
+/*
+Name: Yang Hong
+Data: 10/28/2024
+Title: A6: Qt Simon Game
+
+This .h file implements the gameModel class defined in gameModel.h.
+It includes implementations of methods for starting a new game, handling
+player inputs, managing the sequence of moves, and advancing to the next
+level.
+*/
+
 #ifndef GAMEMODEL_H
 #define GAMEMODEL_H
 

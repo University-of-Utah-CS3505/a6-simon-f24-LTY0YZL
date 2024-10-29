@@ -1,3 +1,13 @@
+/*
+Name: Yang Hong
+Data: 10/28/2024
+Title: A6: Qt Simon Game
+
+This file provides the implementation for the MainWindow class defined in MainWindow.h.
+It includes methods for setting up the UI layout, connecting UI elements to signals and slots for
+interaction, and updating the UI based on game state changes.
+*/
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QRandomGenerator>

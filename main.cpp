@@ -1,3 +1,21 @@
+/*
+Name: Yang Hong
+GitHub name: LTY0YZL
+Data: 10/28/2024
+Title: A6: Qt Simon Game
+
+This is the entry point of the Simon Says game application.
+It sets up the QApplication environment, creates instances
+of MainWindow and gameModel, and establishes the necessary
+connectionsbetween the MainWindow and the gameModel.
+
+creative element:
+After every two successful levels, all buttons will randomly
+change to the same color (blue or red) during the display sequence
+phase. At this time, you need to pay attention to the flashing
+buttons instead of the flashing colors.
+*/
+
 #include "mainwindow.h"
 #include <QApplication>
 #include "gameModel.h"
